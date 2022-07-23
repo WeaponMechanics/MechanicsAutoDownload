@@ -1,0 +1,3 @@
+Auto_Download:
+  Connection_Timeout: 10000
+  Read_Timeout: 30000
