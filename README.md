@@ -9,7 +9,7 @@ In your `build.gradle.kts`, include
 repositories {
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/WeaponMechanics/MechanicsAutoDownload")
+        url = uri("https://maven.pkg.github.com/WeaponMechanics/MechanicsMain")
         credentials {
             username = "CJCrafter"
             password = "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" // this is a public token created in CJCrafter's name which will never expire
@@ -17,7 +17,7 @@ repositories {
     }
 }
 dependencies {
-    implementation("me.cjcrafter:mechanicsautodownload:1.0.1")
+    implementation("me.cjcrafter:mechanicsautodownload:1.0.2")
 }
 ```
 
