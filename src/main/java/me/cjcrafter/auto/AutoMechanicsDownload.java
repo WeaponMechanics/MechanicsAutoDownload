@@ -86,6 +86,6 @@ public class AutoMechanicsDownload {
 
         MECHANICS_CORE = new MechanicsDownloader("MechanicsCore", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/MechanicsCore", coreVersion);
         WEAPON_MECHANICS = new MechanicsDownloader("WeaponMechanics", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/WeaponMechanics", weaponVersion);
-        ARMOR_MECHANICS = new MechanicsDownloader("ArmorMechanics", "https://github.com/WeaponMechanics/ArmorMechanics/releases/latest/download/MechanicsCore", armorVersion);
+        ARMOR_MECHANICS = new MechanicsDownloader("ArmorMechanics", "https://github.com/WeaponMechanics/ArmorMechanics/releases/latest/download/ArmorMechanics", armorVersion);
     }
 }

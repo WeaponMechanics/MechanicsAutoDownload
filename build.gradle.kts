@@ -20,7 +20,7 @@ bukkit {
     apiVersion = "1.13"
 
     authors = listOf("CJCrafter")
-    depend = listOf("MechanicsCore", "WeaponMechanics")
+    softDepend = listOf("MechanicsCore", "WeaponMechanics", "ArmorMechanics")
 }
 
 repositories {

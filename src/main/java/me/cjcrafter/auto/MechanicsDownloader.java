@@ -21,7 +21,7 @@ public class MechanicsDownloader {
 
     public MechanicsDownloader(String plugin, String link, String version) {
         this.plugin = plugin;
-        this.link = link + "-" + version;
+        this.link = link + "-" + version + ".jar";
         this.version = version;
     }
 
