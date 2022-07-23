@@ -1,6 +1,6 @@
 ## MechanicsAutoDownload
 MechanicsAutoDownload is a small library that you can shade into your plugin to automatically download and load
-[MechanicsCore], [WeaponMechanics], and [ArmorMechanics]. 
+[MechanicsCore], [WeaponMechanics], and/or [ArmorMechanics]. 
 
 ## Usage
 
@@ -17,7 +17,7 @@ repositories {
     }
 }
 dependencies {
-    compileOnly("me.cjcrafter:mechanicsautodownload:1.0.1")
+    implementation("me.cjcrafter:mechanicsautodownload:1.0.1")
 }
 ```
 
