@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 group = "me.cjcrafter"
-version = "1.0.0"
+version = "1.0.1"
 
 plugins {
     `java-library`
@@ -37,7 +37,7 @@ dependencies {
 
 tasks.named<ShadowJar>("shadowJar") {
     classifier = null
-    archiveFileName.set("ExamplePlugin-${project.version}.jar")
+    archiveFileName.set("MechanicsAutoDownload-${project.version}.jar")
     configurations = listOf(project.configurations["shadeOnly"], project.configurations["runtimeClasspath"])
 }
 
@@ -83,7 +83,7 @@ publishing {
 
             pom {
                 groupId = "me.cjcrafter"
-                artifactId = "auto" // MUST be lowercase
+                artifactId = "mechanicsautodownload" // MUST be lowercase
                 packaging = "jar"
             }
         }
