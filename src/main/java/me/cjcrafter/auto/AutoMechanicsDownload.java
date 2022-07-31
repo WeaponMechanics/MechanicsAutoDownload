@@ -18,6 +18,8 @@ public class AutoMechanicsDownload {
     public final MechanicsDownloader WEAPON_MECHANICS;
     public final MechanicsDownloader ARMOR_MECHANICS;
 
+    public final String RESOURCE_PACK_VERSION;
+
 
     public AutoMechanicsDownload(FileConfiguration config) {
         this(config.getInt("Auto_Download.Connection_Timeout", 10) * 1000, config.getInt("Auto_Download.Read_Timeout", 30) * 1000);
@@ -27,6 +29,7 @@ public class AutoMechanicsDownload {
         String coreVersion = null;
         String weaponVersion = null;
         String armorVersion = null;
+        String resourcePackVersion = null;
 
         // IO operations
         try {
@@ -59,7 +62,7 @@ public class AutoMechanicsDownload {
                         weaponVersion = version;
                         break;
                     case "WeaponMechanicsResourcePack":
-                        // This information is currently intentionally unused
+                        resourcePackVersion = version;
                         break;
                 }
             }
@@ -87,5 +90,6 @@ public class AutoMechanicsDownload {
         MECHANICS_CORE = new MechanicsDownloader("MechanicsCore", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/MechanicsCore", coreVersion);
         WEAPON_MECHANICS = new MechanicsDownloader("WeaponMechanics", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/WeaponMechanics", weaponVersion);
         ARMOR_MECHANICS = new MechanicsDownloader("ArmorMechanics", "https://github.com/WeaponMechanics/ArmorMechanics/releases/latest/download/ArmorMechanics", armorVersion);
+        RESOURCE_PACK_VERSION = resourcePackVersion;
     }
 }
