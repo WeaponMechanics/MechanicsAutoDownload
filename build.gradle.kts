@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 group = "me.cjcrafter"
-version = "1.0.4"
+version = "1.0.5"
 
 plugins {
     `java-library`
@@ -33,12 +33,19 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
+    implementation("com.google.code.gson:gson:2.9.0")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
     classifier = null
     archiveFileName.set("MechanicsAutoDownload-${project.version}.jar")
     configurations = listOf(project.configurations["shadeOnly"], project.configurations["runtimeClasspath"])
+
+    dependencies {
+        relocate("com.google.gson", "me.cjcrafter.auto.gson") {
+            include(dependency("com.google.code.gson::"))
+        }
+    }
 }
 
 tasks.named("assemble").configure {
