@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 group = "me.cjcrafter"
-version = "1.1.0"
+version = "1.1.1"
 
 plugins {
     `java-library`

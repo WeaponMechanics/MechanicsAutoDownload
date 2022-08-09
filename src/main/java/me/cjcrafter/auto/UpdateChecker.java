@@ -29,9 +29,17 @@ public class UpdateChecker {
         this.versionSupplier = versionSupplier;
     }
 
-    public boolean hasUpdate() {
+    /**
+     * Returns an {@link UpdateInfo} if there is an update available, else
+     * returns <code>null</code>. Since this method uses https connections,
+     * this method should only be run async.
+     *
+     * @return The {@link UpdateInfo}, or <code>null</code>.
+     */
+    public UpdateInfo hasUpdate() {
         Version newest = versionSupplier.get();
-        return Version.isOutOfDate(current, newest);
+        boolean hasUpdate = Version.isOutOfDate(current, newest);
+        return hasUpdate ? new UpdateInfo(current, newest) : null;
     }
 
     public static Supplier<Version> github(String organization, String repo) {
