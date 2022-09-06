@@ -1,5 +1,7 @@
 package me.cjcrafter.auto;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,7 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Scanner;
 
 public class AutoMechanicsDownload {
 
@@ -33,26 +34,40 @@ public class AutoMechanicsDownload {
 
         // IO operations
         try {
-            String link = "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/versions.txt";
+            String link = "https://api.github.com/repos/WeaponMechanics/MechanicsMain/releases/latest";
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(connectionTimeout);
             connection.setReadTimeout(readTimeout);
 
             InputStream in = connection.getInputStream();
-            Scanner scanner = new Scanner(in);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            // Loop through the latest versions.txt file to determine the
-            // latest version. ArmorMechanics doesn't have a versions.txt,
-            // so it uses a different system.
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (line.trim().isEmpty())
-                    continue;
+            JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
+            JsonArray assets = json.getAsJsonArray("assets");
 
-                String[] split = line.split(": ?");
+            for (JsonElement asset : assets) {
+                String fileName = asset.getAsJsonObject().get("name").getAsString();
+
+                // Works in cases like
+                // "MechanicsCore-1.4.10.jar
+                // "WeaponMechanicsResourcePack-1.4.10.zip
+                // "MechanicsCore-1.4.10-BETA.jar
+                // "WeaponMechanicsResourcePack-1.4.10-BETA.zip
+                String[] split = fileName.split("-");
+
+                // E.g. when "WeaponMechanics.zip"
+                if (split.length == 1) continue;
+
                 String id = split[0];
                 String version = split[1];
+                if (split.length < 3) {
+                    // "1.4.10.jar"
+                    // "1.4.10.zip"
+                    // -> remove the jar/zip
+                    // With -BETA.jar/zip this wont happen because its already "1.4.10"
+                    version = version.substring(0, version.length() - 4);
+                }
 
                 switch (id) {
                     case "MechanicsCore":
