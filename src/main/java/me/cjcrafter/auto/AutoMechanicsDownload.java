@@ -21,7 +21,6 @@ public class AutoMechanicsDownload {
 
     public final String RESOURCE_PACK_VERSION;
 
-
     public AutoMechanicsDownload(FileConfiguration config) {
         this(config.getInt("Auto_Download.Connection_Timeout", 10) * 1000, config.getInt("Auto_Download.Read_Timeout", 30) * 1000);
     }

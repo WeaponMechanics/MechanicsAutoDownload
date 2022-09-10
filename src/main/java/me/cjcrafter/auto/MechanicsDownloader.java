@@ -25,14 +25,17 @@ public class MechanicsDownloader {
         this.version = version;
     }
 
-    public void install() {
+    public boolean install() {
         PluginManager pm = Bukkit.getPluginManager();
 
         // Plugin is already installed, no need for us to install it again.
-        if (pm.getPlugin(plugin) != null)
-            return;
+        if (pm.getPlugin(plugin) != null) {
+            System.out.println("WM - No need to install since it " + plugin + " is already there");
+            return false;
+        }
 
         try {
+            System.out.println("WM - Attempting install");
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(10000);
@@ -44,6 +47,7 @@ public class MechanicsDownloader {
             Files.copy(in, target.toPath());
             Plugin plugin = pm.loadPlugin(target);
             plugin.onLoad();
+            return true;
 
         } catch (IOException | InvalidPluginException | InvalidDescriptionException ex) {
             throw new InternalError(ex);
