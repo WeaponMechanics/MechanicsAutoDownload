@@ -30,12 +30,10 @@ public class MechanicsDownloader {
 
         // Plugin is already installed, no need for us to install it again.
         if (pm.getPlugin(plugin) != null) {
-            System.out.println("WM - No need to install since it " + plugin + " is already there");
             return false;
         }
 
         try {
-            System.out.println("WM - Attempting install");
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(10000);
