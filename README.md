@@ -4,20 +4,22 @@ MechanicsAutoDownload is a small library that you can shade into your plugin to 
 
 ## Usage
 
-In your `build.gradle.kts`, include
+First you'll need to generate personal access token and create gradle.properties file, 
+[here](https://github.com/WeaponMechanics/MechanicsMain/wiki/API#maven-repository) is instructions for it.
+In your `build.gradle.kts`, include:
 ```gradle
 repositories {
     maven {
         name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/WeaponMechanics/MechanicsMain")
+        url = uri("https://maven.pkg.github.com/WeaponMechanics/MechanicsAutoDownload")
         credentials {
-            username = "CJCrafter"
-            password = // currently unavailable, contact CJCrafter if you want this
+            username = findProperty("user").toString()
+            password = findProperty("pass").toString()
         }
     }
 }
 dependencies {
-    implementation("me.cjcrafter:mechanicsautodownload:1.0.2")
+    implementation("me.cjcrafter:mechanicsautodownload:+") // consider replacing '+' with the latest version
 }
 ```
 
