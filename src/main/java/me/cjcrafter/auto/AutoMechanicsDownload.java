@@ -36,6 +36,7 @@ public class AutoMechanicsDownload {
             String link = "https://api.github.com/repos/WeaponMechanics/MechanicsMain/releases/latest";
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
             connection.setConnectTimeout(connectionTimeout);
             connection.setReadTimeout(readTimeout);
 
@@ -88,6 +89,7 @@ public class AutoMechanicsDownload {
             String link = "https://api.github.com/repos/WeaponMechanics/ArmorMechanics/releases/latest";
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
             connection.setConnectTimeout(connectionTimeout);
             connection.setReadTimeout(readTimeout);
 

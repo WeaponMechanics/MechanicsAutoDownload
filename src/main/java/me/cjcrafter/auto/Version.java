@@ -44,6 +44,8 @@ public class Version {
     }
 
     public static boolean isOutOfDate(Version current, Version newest) {
+        // 1.2.3
+        // 1.3.1
         if (newest.major > current.major)
             return true;
         if (newest.minor > current.minor)
