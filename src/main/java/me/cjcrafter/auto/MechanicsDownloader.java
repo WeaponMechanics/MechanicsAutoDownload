@@ -19,6 +19,12 @@ public class MechanicsDownloader {
     private final String link;
     private final String version;
 
+    public MechanicsDownloader(String plugin, String link) {
+        this.plugin = plugin;
+        this.link = link;
+        this.version = null;
+    }
+
     public MechanicsDownloader(String plugin, String link, String version) {
         this.plugin = plugin;
         this.link = link + "-" + version + ".jar";
@@ -36,12 +42,19 @@ public class MechanicsDownloader {
         try {
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
             connection.setConnectTimeout(10000);
             connection.setReadTimeout(30000);
 
             InputStream in = connection.getInputStream();
 
-            File target = new File("plugins" + File.separator + plugin + "-" + version + ".jar");
+            // File path should be server/plugins/PluginName-1.0.0.jar
+            String name = "plugins" + File.separator + plugin;
+            if (version != null)
+                name += "-" + version;
+            name += ".jar";
+
+            File target = new File(name);
             Files.copy(in, target.toPath());
             Plugin plugin = pm.loadPlugin(target);
             plugin.onLoad();

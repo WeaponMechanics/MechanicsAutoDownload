@@ -15,9 +15,11 @@ import java.net.URLConnection;
 
 public class AutoMechanicsDownload {
 
+    public final MechanicsDownloader PROTOCOL_LIB;
     public final MechanicsDownloader MECHANICS_CORE;
     public final MechanicsDownloader WEAPON_MECHANICS;
     public final MechanicsDownloader ARMOR_MECHANICS;
+    public final MechanicsDownloader DAMAGE_MECHANICS;
 
     public final String RESOURCE_PACK_VERSION;
 
@@ -28,7 +30,6 @@ public class AutoMechanicsDownload {
     public AutoMechanicsDownload(int connectionTimeout, int readTimeout) {
         String coreVersion = null;
         String weaponVersion = null;
-        String armorVersion = null;
         String resourcePackVersion = null;
 
         // IO operations
@@ -85,27 +86,14 @@ public class AutoMechanicsDownload {
             throw new InternalError(ex);
         }
 
-        try {
-            String link = "https://api.github.com/repos/WeaponMechanics/ArmorMechanics/releases/latest";
-            URL url = new URL(link);
-            URLConnection connection = url.openConnection();
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
-            connection.setConnectTimeout(connectionTimeout);
-            connection.setReadTimeout(readTimeout);
+        String armorVersion = UpdateChecker.github("WeaponMechanics", "ArmorMechanics").get().toString();
+        String damageVersion = UpdateChecker.github("WeaponMechanics", "DamageMechanics").get().toString();
 
-            InputStream in = connection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-            JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
-            armorVersion = json.get("tag_name").getAsString();
-
-        } catch (IOException ex) {
-            throw new InternalError(ex);
-        }
-
+        PROTOCOL_LIB = new MechanicsDownloader("ProtocolLib", "https://github.com/dmulloy2/ProtocolLib/releases/latest/download/ProtocolLib.jar");
         MECHANICS_CORE = new MechanicsDownloader("MechanicsCore", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/MechanicsCore", coreVersion);
         WEAPON_MECHANICS = new MechanicsDownloader("WeaponMechanics", "https://github.com/WeaponMechanics/MechanicsMain/releases/latest/download/WeaponMechanics", weaponVersion);
         ARMOR_MECHANICS = new MechanicsDownloader("ArmorMechanics", "https://github.com/WeaponMechanics/ArmorMechanics/releases/latest/download/ArmorMechanics", armorVersion);
+        DAMAGE_MECHANICS = new MechanicsDownloader("DamageMechanics", "https://github.com/WeaponMechanics/DamageMechanics/releases/latest/download/DamageMechanics", damageVersion);
         RESOURCE_PACK_VERSION = resourcePackVersion;
     }
 }
