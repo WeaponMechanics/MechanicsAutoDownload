@@ -2,8 +2,12 @@ package me.cjcrafter.auto;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,19 +18,25 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.function.Supplier;
 
-public class UpdateChecker {
+public class UpdateChecker implements Listener {
 
     private final Version current;
     private final Supplier<Version> versionSupplier;
 
+    private Version cache;
+
     public UpdateChecker(Plugin plugin, Supplier<Version> versionSupplier) {
-        this.current = new Version(plugin.getDescription().getVersion());
-        this.versionSupplier = versionSupplier;
+        this(new Version(plugin.getDescription().getVersion()), versionSupplier);
     }
 
     public UpdateChecker(Version current, Supplier<Version> versionSupplier) {
         this.current = current;
         this.versionSupplier = versionSupplier;
+        hasUpdate(true);
+    }
+
+    public UpdateInfo hasUpdate() {
+        return hasUpdate(false);
     }
 
     /**
@@ -34,10 +44,15 @@ public class UpdateChecker {
      * returns <code>null</code>. Since this method uses https connections,
      * this method should only be run async.
      *
+     * @param forceUpdate true to force web lookup, false uses cache.
      * @return The {@link UpdateInfo}, or <code>null</code>.
      */
-    public UpdateInfo hasUpdate() {
+    public UpdateInfo hasUpdate(boolean forceUpdate) {
+        if (!forceUpdate && cache != null && Version.isOutOfDate(current, cache))
+            return new UpdateInfo(current, cache);
+
         Version newest = versionSupplier.get();
+        cache = newest;
         boolean hasUpdate = Version.isOutOfDate(current, newest);
         return hasUpdate ? new UpdateInfo(current, newest) : null;
     }
